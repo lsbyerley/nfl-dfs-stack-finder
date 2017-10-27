@@ -1,0 +1,125 @@
+<div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">DFS Stack Optimizer</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="#" class="btn btn-success" ng-class="{ 'disabled' : selectedPlayers.length < 2 }" ng-click="buildCustomStack(selectedPlayers)">Create Stack</a></li>
+                <li><a href="#" class="btn btn-success" ng-class="{ 'disabled' : selectedPlayers.length > 0 }" ng-click="autoGenerateStack('2-player')">Auto 2</a></li>
+                <li><a href="#" class="btn btn-success" ng-class="{ 'disabled' : selectedPlayers.length > 0 }" ng-click="autoGenerateStack('3-player')">Auto 3</a></li>
+                <li><a href="#" class="btn btn-success" ng-click="reset()">Reset</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-repeat="source in sources" ng-class="{ 'active' : source.id == selectedSourceId }">
+                    <a href="#" ng-click="updateSource(source)">{{ source.name }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    
+    <div class="row">
+    
+        <div class="col-xs-8">
+            
+            <div class="player-pool-heading">
+                <div class="btn-group pos-filter">
+                    <label>Position Filter:</label>
+                    <button ng-repeat="position in playerPositions" type="button" class="btn btn-default" ng-class="{ 'active': filteredPosition === position }" ng-click="updatePositionFilter(position)">{{position}}</button>
+                </div>
+                <h2 class="player-pool">Player Pool</h2>
+                <input ng-model="searchPlayers" type="text" class="form-control" placeholder="Search Players">
+                <div class="slider">
+                    <rzslider rz-slider-model="slider.minValue" rz-slider-high="slider.maxValue" rz-slider-options="slider.options"></rzslider>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <td>Team</td>
+                        <td>Opp</td>
+                        <td>Player</td>
+                        <td ng-click="updateSort('salary', !sortReverse)">Salary</td>
+                        <td ng-click="updateSort('score', !sortReverse)">Score</td>
+                        <td ng-click="updateSort('proj', !sortReverse)">Projected</td>
+                        <td ng-click="updateSort('point_per', !sortReverse)">PT/$/K</td>
+                        <td ng-click="updateSort('ceiling', !sortReverse)">Ceiling</td>
+                        <td ng-click="updateSort('floor', !sortReverse)">Floor</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="player in playerPool | orderBy:sortType:sortReverse | filter:searchPlayers | TeamFilter:selectedPlayersTeam | SalaryFilter:slider | PositionFilter:filteredPosition" ng-click="addToStack(player)">
+                        <td>{{ player.team }}</td>
+                        <td>{{ player.opp }}</td>
+                        <td>{{ player.pos }} - {{ player.name }}</td>
+                        <td>{{ player.salary }}</td>
+                        <td>{{ player.score }}</td>
+                        <td>{{ player.proj }}</td>
+                        <td>{{ player.point_per }}</td>
+                        <td>{{ player.ceiling }}</td>
+                        <td>{{ player.floor }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-4 stacks">
+            
+            <div class="pick-something" ng-class="{ 'hide': selectedPlayers.length > 0 || teamStacks.length > 0 }">
+                <div class="panel panel-info">
+                    <div class="panel-body"><p>Make a custom stack or auto generatoe one mane</p></div>
+                </div>
+            </div>
+                
+            <div class="selected-players" ng-class="{ 'hide': selectedPlayers.length === 0 }">
+                <h2>Selected Players {{ selectedPlayersTeam }}</h2>
+                <ul class="list-group selected-players">
+                    <li ng-repeat="player in selectedPlayers" class="list-group-item" ng-click="removePlayer(player)">
+                        {{ player.name }}
+                        <i class="ion-close"></i>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="team-stacks" ng-class="{ 'hide': teamStacks.length === 0 }">
+                <h2>Team Stacks</h2>
+                <div class="btn-group stack-sort">
+                    <label>Sort Stack:</label>
+                    <button type="button" class="btn btn-default" ng-class="{ 'active': stackSortType === 'total_proj' }" ng-click="updateStackSort('total_proj', !stackSortReverse)">Proj</button>
+                    <button type="button" class="btn btn-default" ng-class="{ 'active': stackSortType === 'point_per' }" ng-click="updateStackSort('point_per', !stackSortReverse)">Pt/$</button>
+                    <button type="button" class="btn btn-default" ng-class="{ 'active': stackSortType === 'total_ceiling' }" ng-click="updateStackSort('total_ceiling', !stackSortReverse)">Ceiling</button>
+                    <button type="button" class="btn btn-default" ng-class="{ 'active': stackSortType === 'total_floor' }" ng-click="updateStackSort('total_floor', !stackSortReverse)">Floor</button>
+                </div>
+                <div class="panel panel-success" ng-repeat="team in teamStacks | orderBy:stackSortType:stackSortReverse">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ team.name }} {{ team.opp }} - Cost: ${{ team.total_salary }} - PT/$/K: {{ team.point_per }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="breadcrumb">
+                            <li>Proj: {{ team.total_proj }}</li>
+                            <li>Ceil: {{ team.total_ceiling }}</li>
+                            <li>Flr: {{ team.total_floor }}</li>
+                        </ul>
+                        <ul class="list-group stacked-players">
+                            <li ng-repeat="player in team.players" class="list-group-item">
+                                {{ player.name }} ${{ player.salary }}
+                                <span class="badge">Flr: {{ player.floor }}</span>
+                                <span class="badge">Ceil: {{ player.ceiling }}</span>
+                                <span class="badge">Proj: {{ player.proj }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div>

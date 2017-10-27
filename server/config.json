@@ -1,0 +1,14 @@
+{
+	"yahoo": {
+		"APP_KEY"      : "your-app-key",
+    	"APP_SECRET"   : "your-app-secret"
+	},
+	"google": {
+		"APP_KEY"    : "your-app-key",
+    	"APP_SECRET" : "your-app-secret"
+	},
+	"twitter": {
+		"APP_KEY"    : "your-app-key",
+    	"APP_SECRET" : "your-app-secret"	
+	}
+}

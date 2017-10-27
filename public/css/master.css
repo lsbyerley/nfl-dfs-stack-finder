@@ -1,0 +1,149 @@
+/*body {
+	background-color: #d8d8d8;
+}*/
+P:last-child{
+    margin:0;
+}
+.media-object {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+}
+
+.navbar-brand {
+	height: 70px;
+	padding: 0 15px;
+	font-size: inherit;
+	line-height: 70px;
+}
+
+.navbar {
+	min-height: 70px;
+	border: 0;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.navbar-header {
+	float: left;
+	padding-left: 15px;
+}
+
+.navbar-brand {
+	height: 70px;
+	padding: 0 15px;
+	font-size: inherit;
+	line-height: 70px;
+}
+
+.navbar-nav > li {
+	float: left;
+}
+
+.navbar-nav > li > a {
+	padding: 0 15px;
+	line-height: 70px;
+}
+
+.navbar-left > li{
+    
+}
+
+.navbar-left > li > a.btn-success{
+    line-height: 45px;
+    margin: 10px 10px 0 10px;
+}
+
+.navbar-left > li > a.btn-success:hover{
+    color: #ffffff;
+    background-color: #008966;
+    border-color: #007f5e;
+}
+
+.navbar-left > li > a.btn-success:focus{
+    color: #ffffff;
+    background-color: #00bc8c;
+    border-color: #00bc8c;
+}
+
+.navbar-text {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.list-group.selected-players{
+	margin-bottom:0;
+	cursor:pointer;
+}
+
+.list-group.stacked-players{
+	margin-bottom:0;
+}
+
+.list-group.stacked-players li .badge{
+    font-weight:initial;
+}
+
+.list-group.selected-players i{
+	color:white;
+	position:absolute;
+	right:15px;
+	top:auto;
+	bottom:auto;
+}
+
+.btn-group.stack-sort, .btn-group.pos-filter{
+    margin-bottom:10.5px;
+    display:block;
+}
+
+.btn-group.stack-sort::after, .btn-group.pos-filter::after{
+    content:'';
+    clear:both;
+    display:table;
+}
+
+.btn-group.stack-sort label, .btn-group.pos-filter label{
+    float:left;
+    color:#FFF;
+    padding:10px 15px;
+}
+
+.btn-group.stack-sort .btn:nth-child(2), .btn-group.pos-filter .btn:nth-child(2) {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+}
+
+.breadcrumb{
+	margin-bottom:15px;
+}
+
+.table-hover > tbody > tr:hover{
+	cursor:pointer;
+}
+
+.player-pool-heading{
+    margin: 21px 0 10.5px 0;
+    border-bottom: 1px solid #fff;
+    padding-bottom: 10px;
+}
+.player-pool-heading h2{
+    display:inline-block;
+    margin:0;
+    vertical-align: middle;
+}
+.player-pool-heading input{
+    display: inline-block;
+    width: 250px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+.slider{
+    display: inline-block;
+    width: 550px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.team-stacks{
+    overflow:scroll;
+}

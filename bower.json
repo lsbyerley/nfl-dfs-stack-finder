@@ -1,0 +1,27 @@
+{
+  "name": "your-app-name",
+  "description": "node server with angular starter pack",
+  "main": "server/server.js",
+  "authors": [
+    "Lucas Byerley"
+  ],
+  "license": "ISC",
+  "moduleType": [
+    "node"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "modernizr": "^3.3.1",
+    "satellizer": "^0.14.0",
+    "angular-ui-router": "^0.2.18",
+    "angular-toastr": "^1.7.0"
+  }
+}
